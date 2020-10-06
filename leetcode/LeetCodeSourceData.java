@@ -67,7 +67,7 @@ public class LeetCodeSourceData {
                 } else if (line.equals(commentSolution)) {
                     finalResult.append(String.format("## %s", title)).append("\n\n");
                     finalResult.append(leetcodeLink).append("\n\n");
-                    finalResult.append("```").append(solution);
+                    finalResult.append("```java\n").append(solution);
                     finalResult.append("```").append("\n\n");
                     finalResult.append(commentSolution);
                 } else {
