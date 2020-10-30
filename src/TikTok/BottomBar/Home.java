@@ -1,10 +1,7 @@
 package TikTok.BottomBar;
 
-import TikTok.Content.Profile;
 import TikTok.Content.Video;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Home {

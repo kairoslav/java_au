@@ -3,44 +3,40 @@ package TikTok;
 import TikTok.BottomBar.Discover;
 import TikTok.BottomBar.Home;
 import TikTok.Content.*;
-import org.w3c.dom.ls.LSOutput;
 
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private final static int bound = 10000;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     private static String randomHashtag() {
-        return switch (random.nextInt(7)) {
-            case 0 -> VideoHashtags.FYP.getHashtag();
-            case 1 -> VideoHashtags.LONER.getHashtag();
-            case 2 -> VideoHashtags.PAIN.getHashtag();
-            case 3 -> VideoHashtags.SMH.getHashtag();
-            case 4 -> VideoHashtags.TEENAGER.getHashtag();
-            case 5 -> VideoHashtags.TIKTOKFANFEST.getHashtag();
-            case 6 -> VideoHashtags.VIRGINGANG.getHashtag();
-            default -> null;
-        };
+        switch (random.nextInt(7)) {
+            case 0: return VideoHashtags.FYP.getHashtag();
+            case 1: return VideoHashtags.LONER.getHashtag();
+            case 2: return VideoHashtags.PAIN.getHashtag();
+            case 3: return VideoHashtags.SMH.getHashtag();
+            case 4: return VideoHashtags.TEENAGER.getHashtag();
+            case 5: return VideoHashtags.TIKTOKFANFEST.getHashtag();
+            case 6: return VideoHashtags.VIRGINGANG.getHashtag();
+            default: return null;
+        }
     }
 
     private static String generateCommentText() {
-        return switch (random.nextInt(9)) {
-            case 0 -> "Lmao what a loser";
-            case 1 -> "You so cute huh";
-            case 2 -> "Girls, I think that he is my new crush";
-            case 3 -> "I am so tired from doing this homework";
-            case 4 -> "No way mate!!";
-            case 5 -> "Ahahahhahahah";
-            case 6 -> "By the way it reminds me a joke about jew russian and american";
-            case 7 -> "WTF";
-            case 8 -> "I LOVE YOU";
-
-
-
-            default -> null;
-        };
+        switch (random.nextInt(9)) {
+            case 0: return "Lmao what a loser";
+            case 1: return "You so cute huh";
+            case 2: return "Girls, I think that he is my new crush";
+            case 3: return "I am so tired from doing this homework";
+            case 4: return "No way mate!!";
+            case 5: return "Ahahahhahahah";
+            case 6: return "By the way it reminds me a joke about jew russian and american";
+            case 7: return "WTF";
+            case 8: return "I LOVE YOU";
+            default: return null;
+        }
     }
 
     private static CommentReply generateCommentReply() {
@@ -86,6 +82,7 @@ public class Main {
 
     private static Video generateVideo() {
         return new Video(
+                "video" + random.nextInt(bound),
                 "user" + random.nextInt(bound),
                 generateDescription(),
                 random.nextInt(bound),
@@ -129,17 +126,19 @@ public class Main {
     }
 
     private static final Home home = new Home(generateVideos(), generateVideos());
-    public static final Discover discover = new Discover(generateDiscoverMap());
+    private static final Discover discover = new Discover(generateDiscoverMap());
+    public static final Video video = generateVideo();
+
 
     public static void main(String[] args) {
         System.out.println("Videos from recommendations sorted by likes:");
         List<Video> lv = InstrumentsOfAnalytics.getTopNVideosFromYourFollowingsSortedByLikes(3, home);
-        for (Video v: lv) {
+        for (Video v : lv) {
             System.out.println(v.toString());
         }
         System.out.println("\nVideos from recommendations sorted by amount of comments");
         List<Video> videosByComments = InstrumentsOfAnalytics.getTopNVideosFromYourFollowingByAmountOfComments(3, home);
-        for (Video v: videosByComments) {
+        for (Video v : videosByComments) {
             System.out.println("Video{authorName='" + v.getAuthorProfile()
                     + ", commentCount=" + v.getComments().size()
                     + "', comments=[" + v.getComments() + "]");
@@ -150,8 +149,15 @@ public class Main {
         }
         System.out.println("\nThe most popular hashtags now:");
         List<String> topHashtags = InstrumentsOfAnalytics.getTopNMostPopularHashtagAtTheMoment(3, discover);
-        for (String v: topHashtags) {
+        for (String v : topHashtags) {
             System.out.println(v);
+        }
+        System.out.println("\nThe most replied comment from video=" + video.toString() + "\n" + InstrumentsOfAnalytics.getTheMostRepliedCommentFromVideo(video));
+        System.out.println("\nThe most liked comment for each video:");
+        List<Video> videos = generateVideos();
+        Map<String, Comment> sc = InstrumentsOfAnalytics.forEachVideoGetMostLikedComment(videos);
+        for (Map.Entry<String, Comment> a : sc.entrySet()) {
+            System.out.println(a.getKey() + " likes=" + a.getValue().getLikes() + " comment=" + a.getValue().getText());
         }
     }
 }

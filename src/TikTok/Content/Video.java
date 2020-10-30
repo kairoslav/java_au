@@ -3,19 +3,24 @@ package TikTok.Content;
 import java.util.List;
 
 public class Video {
-    //private final Profile authorProfile;
+    private final String videoId;
     private final String authorProfile;
     private final String description;
     private final int likes;
     private final List<Comment> comments;
     private final int repliesCount;
 
-    public Video(String authorProfile, String description, int likes, List<Comment> comments, int repliesCount) {
+    public Video(String videoId, String authorProfile, String description, int likes, List<Comment> comments, int repliesCount) {
+        this.videoId = videoId;
         this.authorProfile = authorProfile;
         this.description = description;
         this.likes = likes;
         this.comments = comments;
         this.repliesCount = repliesCount;
+    }
+
+    public String getVideoId() {
+        return videoId;
     }
 
     public String getAuthorProfile() {
@@ -41,10 +46,11 @@ public class Video {
     @Override
     public String toString() {
         return "Video{" +
-                "authorName='" + authorProfile + '\'' +
+                "videoId='" + videoId + '\'' +
+                ", authorProfile='" + authorProfile + '\'' +
                 ", description='" + description + '\'' +
                 ", likes=" + likes +
-                ", comments=" + comments.toString() +
+                ", comments=" + comments +
                 ", repliesCount=" + repliesCount +
                 '}';
     }
