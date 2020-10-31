@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LeetCodeSourceData {
     private final String title;
@@ -21,14 +22,10 @@ public class LeetCodeSourceData {
         } else {
             this.title        = data.get(0).replaceFirst("[0-9]*. ", "");
             this.leetcodeLink = data.get(1);
-
-            StringBuilder solution_with_newlines = new StringBuilder();
-
-            for (String line : data.subList(2, data.size() - 1)) {
-                solution_with_newlines.append(String.format("%s\n", line));
-            }
-
-            this.solution = solution_with_newlines.toString();
+            this.solution = data.stream()
+                    .skip(2)
+                    .map(x -> x.replaceFirst(" {4}", "") + "\n")
+                    .collect(Collectors.joining());
         }
     }
 
