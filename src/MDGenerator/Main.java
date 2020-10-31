@@ -1,4 +1,4 @@
-package com.company;
+package MDGenerator;
 
 import java.util.LinkedList;
 import java.util.List;

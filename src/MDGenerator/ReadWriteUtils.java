@@ -1,4 +1,4 @@
-package com.company;
+package MDGenerator;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
