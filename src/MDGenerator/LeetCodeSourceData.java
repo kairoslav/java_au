@@ -32,7 +32,7 @@ public class LeetCodeSourceData {
     private static String firstCharUpper(String s) {
         StringBuilder str = new StringBuilder(s);
 
-        str.setCharAt(0, s.charAt(0));
+        str.setCharAt(0, s.toUpperCase().charAt(0));
 
         return str.toString();
     }
